@@ -1,0 +1,127 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime
+    @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+    "Find a single user by an identifying attribute."
+    user(
+        "Search by primary key."
+        id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+
+        "Search by email address."
+        email: String
+            @eq
+            @rules(apply: ["prohibits:id", "required_without:id", "email"])
+    ): User @find
+
+    "List multiple users."
+    users(
+        "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
+        name: String @where(operator: "like")
+    ): [User!]! @paginate(defaultCount: 10)
+
+    tasks: [Task!]! @paginate(defaultCount: 10) @guard
+    categories: [TaskCategory!]! @all @guard
+    taskCategories: [TaskCategory!]! @paginate(defaultCount: 10) @guard
+    task(unique_id: String! @eq): Task @find @guard
+
+    searchTask(title: String!): [Task!]! @guard
+}
+
+"Account of a person who utilizes this application."
+type User {
+    "Unique primary key."
+    id: ID!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String!
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "The Task created by the user."
+    task: [Task!]! @hasMany(relation: "userTests")
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+}
+
+type TaskCategory {
+    id: ID!
+    name: String!
+}
+
+type Task {
+    id: ID!
+    user_id: User! @belongsTo(relation: "user")
+    unique_id: String!
+    title: String!
+    category: TaskCategory! @belongsTo
+    description: String!
+    due_date: Date!
+    status: String!
+}
+
+type authResponse {
+    status: Int!
+    message: String!
+    token: String
+    user: User
+}
+
+type TaskResponse {
+    status: Int!
+    message: String!
+    task: Task
+}
+
+input LoginInput {
+    email: String! @rules(apply: ["email"])
+    password: String!
+}
+
+type Mutation {
+    login(email: String!, password: String!): authResponse!
+        @field(resolver: "LoginMutation")
+
+    # login(input: LoginInput @spread): authResponse!
+    #     # @field(resolver: "App\\GraphQL\\Mutations\\AuthMutation@login")
+    #     @field(resolver: "LoginMutation")
+
+    register(name: String!, email: String!, password: String!): authResponse!
+        @validator
+        @field(resolver: "RegisterMutation")
+
+    createTaskCategory(
+        name: String! @rules(apply: ["required", "unique:task_categories"])
+    ): TaskCategory @create @guard
+
+    createTask(
+        title: String!
+        category_id: Int!
+        description: String!
+        due_date: Date!
+    ): TaskResponse @validator @field(resolver: "CreateTaskMutation") @guard
+
+    updateTask(
+        unique_id: String!
+        title: String
+        category_id: Int
+        description: String
+        due_date: Date
+        status: String
+    ): TaskResponse @validator @field(resolver: "UpdateTaskMutation") @guard
+
+    deleteTask(unique_id: String!): TaskResponse
+        @field(resolver: "DeleteTaskMutation")
+        @guard
+}
