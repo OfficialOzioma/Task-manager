@@ -76,10 +76,6 @@ type Mutation {
     login(email: String!, password: String!): authResponse!
         @field(resolver: "LoginMutation")
 
-    # login(input: LoginInput @spread): authResponse!
-    #     # @field(resolver: "App\\GraphQL\\Mutations\\AuthMutation@login")
-    #     @field(resolver: "LoginMutation")
-
     register(name: String!, email: String!, password: String!): authResponse!
         @validator
         @field(resolver: "RegisterMutation")
