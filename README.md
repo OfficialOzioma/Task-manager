@@ -1,21 +1,39 @@
 # Task-manager
 
-###  This app lets you create your daily tasks, 
+### This app lets you create your daily tasks
+
+## Technologies used
+
+- PHP 8.1
+- Laravel 10
+- MySQL 8.0.27
+- GraphQL
+- Vuejs 3
+- Nodejs and npm
 
 # How to install
 
 ## This Repository contains both the frontend (Vuejs) and backend (Laravel)
 
-clone the repo
+### Clone the repo
 
   ```sh
-npm install
+git clone git@github.com:OfficialOzioma/Task-manager.git 
 ```
   
-- cd Task-manager
-### for the frontend 
+### Change the directory into the project folder
 
-## Project Setup
+```sh
+cd Task-manager
+```
+
+## For the frontend
+
+```sh
+cd TaskManager_frontend
+```
+
+# Project Setup
 
 ```sh
 npm install
@@ -32,6 +50,3 @@ npm run dev
 ```sh
 npm run build
 ```
-
-  
-

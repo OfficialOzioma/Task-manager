@@ -1,0 +1,14 @@
+/TaskManager_backend/.phpunit.cache
+/TaskManager_frontend/node_modules
+/TaskManager_frontend/public/build
+/TaskManager_backend/public/hot
+/TaskManager_backend/public/storage
+/TaskManager_backend/storage/*.key
+/TaskManager_backend/vendor
+/TaskManager_backend/.env
+/TaskManager_backend/.env.backup
+/TaskManager_backend/.env.production
+/TaskManager_backend/.phpunit.result.cache
+/.fleet
+/.idea
+/.vscode
