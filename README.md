@@ -1,6 +1,14 @@
 # Task-manager
 
-**Note** This app lets you create your daily task
+###  This app lets you create your daily task, 
 
-# How to instal
+# How to install
+
+## This Repository contains both the frontend (Vuejs) and backend (Laravel)
+
+- clone the repo
+- cd Task-manager
+### for the frontend 
+- cd frontend
+  
 
