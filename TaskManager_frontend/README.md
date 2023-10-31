@@ -2,7 +2,7 @@
 
 **This is the frontend of the Task Manager application**
 
-**NOTE** The frontend is not yet complete
+**NOTE** The frontend is not yet complete, so far you login and register a new user.
 
 ## Technologies
 
