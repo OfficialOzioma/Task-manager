@@ -8,10 +8,7 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 type Query {
     tasks: [Task!]! @paginate(defaultCount: 10) @guard
     categories: [TaskCategory!]! @all @guard
-    taskCategories: [TaskCategory!]! @paginate(defaultCount: 10) @guard
     task(unique_id: String! @eq): Task @find @guard
-
-    searchTask(title: String!): [Task!]! @guard
 }
 
 "Account of a person who utilizes this application."
